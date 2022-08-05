@@ -11,6 +11,8 @@ class Car {
         this.maxSpeed = 3;
         this.friction = 0.05;
 
+        this.angle = 0;
+
 
     }
 
@@ -41,12 +43,34 @@ class Car {
             // keep moving since the speed will 
             // toggle between the two values
         }
-        this.y += this.speed;
+
+        if (this.controls.right) {
+            if (this.controls.reverse) {
+                this.angle += 0.02;
+            }
+            else {
+                this.angle -= 0.02;
+            }
+        }
+        if (this.controls.left) {
+            if (this.controls.reverse) {
+                this.angle -= 0.02;
+            }
+            else {
+                this.angle += 0.02;
+            }
+        }
+        this.y += Math.cos(this.angle) * this.speed;
+        this.x += Math.sin(this.angle) * this.speed;
     }
 
     draw(ctx) {
-        ctx.beginPath()
-        ctx.rect(this.x - (this.width / 2), this.y - (this.height / 2), this.width, this.height)
+        ctx.save()
+        ctx.translate(this.x, this.y);
+        ctx.rotate(-this.angle)
+        ctx.beginPath();
+        ctx.rect(-(this.width / 2), - (this.height / 2), this.width, this.height);
         ctx.fill()
+        ctx.restore();
     }
 }
