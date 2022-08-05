@@ -1,20 +1,47 @@
 class Car {
     constructor(x, y, width, height) {
-        this.x = x
-        this.y = y
-        this.width = width
-        this.height = height
-        this.controls = new Controls()
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.controls = new Controls();
+
+        this.speed = 0;
+        this.acceleration = 0.2;
+        this.maxSpeed = 3;
+        this.friction = 0.05;
+
 
     }
 
     update() {
         if (this.controls.forward) {
-            this.y -= 2
+            this.speed -= this.acceleration;
         }
         if (this.controls.reverse) {
-            this.y += 2
+            this.speed += this.acceleration;
         }
+        if (this.speed > this.maxSpeed / 2) {
+            this.speed = this.maxSpeed / 2;
+        }
+        if (this.speed < -this.maxSpeed) {
+            this.speed = -this.maxSpeed;
+        }
+        if (this.speed > 0) {
+            this.speed -= this.friction;
+        }
+        if (this.speed < 0) {
+            this.speed += this.friction;
+        }
+        if (Math.abs(this.speed) < this.friction) {
+            this.speed = 0;
+            // this if statement is used 
+            // because if no key is pressed 
+            // right now, then the car will 
+            // keep moving since the speed will 
+            // toggle between the two values
+        }
+        this.y += this.speed;
     }
 
     draw(ctx) {
