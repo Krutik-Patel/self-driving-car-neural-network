@@ -17,6 +17,14 @@ class Car {
     }
 
     update() {
+        this.#move();
+        // since the update function is very large, we can make a private function in the class, specifically for the move controls
+
+
+
+    }
+
+    #move() {
         if (this.controls.forward) {
             this.speed -= this.acceleration;
         }
@@ -43,21 +51,13 @@ class Car {
             // keep moving since the speed will 
             // toggle between the two values
         }
-
-        if (this.controls.right) {
-            if (this.controls.reverse) {
-                this.angle += 0.02;
+        if (this.speed != 0) {
+            const flip = this.speed > 0 ? 1 : -1;
+            if (this.controls.right) {
+                this.angle += 0.03 * flip;
             }
-            else {
-                this.angle -= 0.02;
-            }
-        }
-        if (this.controls.left) {
-            if (this.controls.reverse) {
-                this.angle -= 0.02;
-            }
-            else {
-                this.angle += 0.02;
+            if (this.controls.left) {
+                this.angle -= 0.03 * flip;
             }
         }
         this.y += Math.cos(this.angle) * this.speed;
@@ -72,5 +72,10 @@ class Car {
         ctx.rect(-(this.width / 2), - (this.height / 2), this.width, this.height);
         ctx.fill()
         ctx.restore();
+        // the restore method, pops the pushed 
+        //canvas state from the stack, since you 
+        //translate to that location, we need to 
+        //be back to that state, this is 
+        //facilitated by the restore function
     }
 }
