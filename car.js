@@ -4,6 +4,8 @@ class Car {
         this.y = y;
         this.width = width;
         this.height = height;
+
+        this.sensors = new Sensors(this);
         this.controls = new Controls();
         this.speed = 0;
         this.acceleration = 0.2;
@@ -17,6 +19,7 @@ class Car {
 
     update() {
         this.#move();
+        this.sensors.update();
         // since the update function is very 
         //large, we can make a private function
         // in the class, specifically for 
@@ -78,5 +81,8 @@ class Car {
         //translate to that location, we need to 
         //be back to that state, this is 
         //facilitated by the restore function
+
+        // drawing the sensor
+        this.sensors.draw(ctx);
     }
 }
