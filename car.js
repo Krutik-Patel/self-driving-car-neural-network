@@ -17,8 +17,10 @@ class Car {
 
     update() {
         this.#move();
-        // since the update function is very large, we can make a private function in the class, specifically for the move controls
-
+        // since the update function is very 
+        //large, we can make a private function
+        // in the class, specifically for 
+        // the move controls
 
 
     }

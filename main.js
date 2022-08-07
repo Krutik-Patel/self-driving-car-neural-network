@@ -14,9 +14,13 @@ function animate() {
     // get the benefit of resizing the canvas 
     // automatically
 
-
+    ctx.save();
+    ctx.translate(0, -car.y + canvas.height * 0.7);
     road.draw(ctx);
     car.draw(ctx);
+    ctx.restore();
+    // if you put restore before the road and 
+    // car draw, then the camera will not move
     requestAnimationFrame(animate);
 }
 
