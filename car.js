@@ -17,9 +17,9 @@ class Car {
 
     }
 
-    update() {
+    update(roadBorders) {
         this.#move();
-        this.sensors.update();
+        this.sensors.update(roadBorders);
         // since the update function is very 
         //large, we can make a private function
         // in the class, specifically for 
