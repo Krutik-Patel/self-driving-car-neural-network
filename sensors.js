@@ -10,7 +10,7 @@ class Sensors {
     update() {
         this.rays = [];
         for (let i = 0; i < this.rayCount; i++) {
-            const x = lerp(-this.raySpread, this.raySpread, i / (this.rayCount - 1)) - this.car.angle;
+            const x = lerp(-this.raySpread, this.raySpread, this.rayCount == 1 ? 0.5 : i / (this.rayCount - 1)) - this.car.angle;
             const startPoint = { x: this.car.x, y: this.car.y };
             const endPoint = { x: this.car.x + Math.sin(x) * this.rayLength, y: this.car.y - Math.cos(x) * this.rayLength };
             this.rays.push([startPoint, endPoint]);
