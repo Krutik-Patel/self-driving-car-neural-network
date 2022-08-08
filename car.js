@@ -1,15 +1,17 @@
 class Car {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, controlType, maxSpeed = 3) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.damaged = false;
-        this.sensors = new Sensors(this);
-        this.controls = new Controls();
+        if (controlType == "KEYS") {
+            this.sensors = new Sensors(this);
+        }
+        this.controls = new Controls(controlType);
         this.speed = 0;
         this.acceleration = 0.2;
-        this.maxSpeed = 3;
+        this.maxSpeed = maxSpeed;
         this.friction = 0.05;
 
         this.angle = 0;
@@ -26,7 +28,9 @@ class Car {
         // this.#move();
         // this.polygon = this.#createPolygon();
         // this.damaged = this.#assessdamage(roadBorders);
-        this.sensors.update(roadBorders);
+        if (this.sensors) {
+            this.sensors.update(roadBorders);
+        }
         // since the update function is very 
         //large, we can make a private function
         // in the class, specifically for 
@@ -137,6 +141,8 @@ class Car {
         //facilitated by the restore function
 
         // drawing the sensor
-        this.sensors.draw(ctx);
+        if (this.sensors) {
+            this.sensors.draw(ctx);
+        }
     }
 }

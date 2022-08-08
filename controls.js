@@ -1,10 +1,15 @@
 class Controls {
-    constructor() {
+    constructor(controlType) {
         this.forward = false
         this.left = false
         this.right = false
         this.reverse = false
-        this.#addKeyboardListerners()
+        if (controlType == "KEYS") {
+            this.#addKeyboardListerners()
+        }
+        else {
+            this.forward = true;
+        }
         // the hash says that the function is 
         // only accessible from the inside 
         // of the class and not the outside
