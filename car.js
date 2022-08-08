@@ -19,17 +19,17 @@ class Car {
 
     }
 
-    update(roadBorders) {
+    update(roadBorders, traffic) {
         if (!this.damaged) {
             this.#move();
             this.polygon = this.#createPolygon();
-            this.damaged = this.#assessdamage(roadBorders);
+            this.damaged = this.#assessdamage(roadBorders, traffic);
         }
         // this.#move();
         // this.polygon = this.#createPolygon();
         // this.damaged = this.#assessdamage(roadBorders);
         if (this.sensors) {
-            this.sensors.update(roadBorders);
+            this.sensors.update(roadBorders, traffic);
         }
         // since the update function is very 
         //large, we can make a private function
@@ -39,9 +39,14 @@ class Car {
 
     }
 
-    #assessdamage(roadBorders) {
+    #assessdamage(roadBorders, traffic) {
         for (let i = 0; i < roadBorders.length; i++) {
             if (polyIntersection(this.polygon, roadBorders[i])) {
+                return true;
+            }
+        }
+        for (let i = 0; i < traffic.length; i++) {
+            if (polyIntersection(this.polygon, traffic[i].polygon)) {
                 return true;
             }
         }
@@ -111,11 +116,11 @@ class Car {
         this.x += Math.sin(this.angle) * this.speed;
     }
 
-    draw(ctx) {
+    draw(ctx, colour) {
         if (this.damaged) {
             ctx.fillStyle = "gray";
         } else {
-            ctx.fillStyle = "black";
+            ctx.fillStyle = colour;
         }
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x, this.polygon[0].y);

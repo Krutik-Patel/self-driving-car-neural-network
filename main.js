@@ -10,9 +10,9 @@ const traffic = [
 
 function animate() {
     for (let i = 0; i < traffic.length; i++) {
-        traffic[i].update(road.borders);
+        traffic[i].update(road.borders, []);
     }
-    car.update(road.borders);
+    car.update(road.borders, traffic);
     canvas.height = window.innerHeight;
     // you could also use the clearRect method 
     // of the canvas instead of this but, 
@@ -24,9 +24,9 @@ function animate() {
     ctx.translate(0, -car.y + canvas.height * 0.7);
     road.draw(ctx);
     for (let i = 0; i < traffic.length; i++) {
-        traffic[i].draw(ctx);
+        traffic[i].draw(ctx, "red");
     }
-    car.draw(ctx);
+    car.draw(ctx, "blue");
     ctx.restore();
     // if you put restore before the road and 
     // car draw, then the camera will not move
