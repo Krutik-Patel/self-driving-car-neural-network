@@ -2,7 +2,7 @@ class Sensors {
     constructor(car) {
         this.car = car;
         this.rayCount = 5;
-        this.rayLength = 100;
+        this.rayLength = 150;
         this.raySpread = Math.PI / 4;
         this.rays = [];
         this.reading = [];
@@ -18,11 +18,6 @@ class Sensors {
     }
 
     #getReading(rays, roadBorders) {
-        let A = { x: 100, y: 100 };
-        let B = { x: 200, y: 200 };
-        let C = { x: 100, y: 200 };
-        let D = { x: 200, y: 100 };
-        console.log((getIntersection(A, B, C, D)));
         let touches = [];
         for (let i = 0; i < roadBorders.length; i++) {
             const touch = getIntersection(rays[0], rays[1], roadBorders[i][0], roadBorders[i][1]);
