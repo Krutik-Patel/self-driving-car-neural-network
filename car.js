@@ -5,9 +5,11 @@ class Car {
         this.width = width;
         this.height = height;
         this.damaged = false;
-        if (controlType == "KEYS") {
+        if (controlType != "DUMMY") {
             this.sensors = new Sensors(this);
+            this.brain = new NeuralNetwork([this.sensors.rayCount, 6, 4]);
         }
+        this.useBrain = controlType == "AI";
         this.controls = new Controls(controlType);
         this.speed = 0;
         this.acceleration = 0.2;
@@ -30,7 +32,17 @@ class Car {
         // this.damaged = this.#assessdamage(roadBorders);
         if (this.sensors) {
             this.sensors.update(roadBorders, traffic);
+            const offsets = this.sensors.reading.map(s => s == null ? 0 : 1 - s.offest);
+            const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+            console.log(outputs);
+            if (this.useBrain) {
+                this.controls.forward = outputs[0];
+                this.controls.left = outputs[1];
+                this.controls.right = outputs[2];
+                this.controls.reverse = outputs[3];
+            }
         }
+
         // since the update function is very 
         //large, we can make a private function
         // in the class, specifically for 

@@ -4,9 +4,10 @@ class Controls {
         this.left = false
         this.right = false
         this.reverse = false
-        if (controlType == "KEYS") {
-            this.#addKeyboardListerners()
+        if (controlType != "DUMMY") {
+            this.#addKeyboardListerners();
         }
+
         else {
             this.forward = true;
         }
