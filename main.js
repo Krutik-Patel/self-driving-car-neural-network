@@ -1,35 +1,41 @@
-const canvas = document.querySelector("#self-driving-car");
-canvas.width = 200;
+const carCanvas = document.querySelector("#self-driving-car");
+const networkCanvas = document.querySelector("#networkCanvas");
+carCanvas.width = 200;
+networkCanvas.width = 300;
 
-const ctx = canvas.getContext("2d");
-const road = new Road(canvas.width / 2, canvas.width * 0.9);
+const carCtx = carCanvas.getContext("2d");
+const networkCtx = networkCanvas.getContext("2d");
+const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 const car = new Car(road.getLaneCenter(1), 100, 30, 50, "AI");
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2)
 ];
 
-function animate() {
+function animate(time) {
     for (let i = 0; i < traffic.length; i++) {
         traffic[i].update(road.borders, []);
     }
     car.update(road.borders, traffic);
-    canvas.height = window.innerHeight;
+    carCanvas.height = window.innerHeight;
+    networkCanvas.height = window.innerHeight;
     // you could also use the clearRect method 
     // of the canvas instead of this but, 
     // while using that method you will not 
     // get the benefit of resizing the canvas 
     // automatically
 
-    ctx.save();
-    ctx.translate(0, -car.y + canvas.height * 0.7);
-    road.draw(ctx);
+    carCtx.save();
+    carCtx.translate(0, -car.y + carCanvas.height * 0.7);
+    road.draw(carCtx);
     for (let i = 0; i < traffic.length; i++) {
-        traffic[i].draw(ctx, "red");
+        traffic[i].draw(carCtx, "red");
     }
-    car.draw(ctx, "blue");
-    ctx.restore();
+    car.draw(carCtx, "blue");
+    carCtx.restore();
     // if you put restore before the road and 
     // car draw, then the camera will not move
+    networkCtx.lineDashOffset = -time / 50;
+    Visualizer.drawNetwork(networkCtx, car.brain);
     requestAnimationFrame(animate);
 }
 

@@ -33,7 +33,7 @@ class Car {
         if (this.sensors) {
             this.sensors.update(roadBorders, traffic);
             const offsets = this.sensors.reading.map(s => s == null ? 0 : 1 - s.offset);
-            console.log(offsets);
+            // console.log(offsets);
             const outputs = NeuralNetwork.feedForward(offsets, this.brain);
             // console.log(outputs);
             if (this.useBrain) {
