@@ -6,16 +6,29 @@ networkCanvas.width = 300;
 const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
-let N = 100;
+let N = 500;
+let carsRemaining = N;
 const cars = generateCars(N);
 let bestCar = cars[0];
-if (localStorage.getItem("bestBrain")) {
-    bestCar.brain = JSON.parse(localStorage.getItem("bestBrain"));
+if (localStorage.getItem("newBrain")) {
+    for (let i = 0; i < N; i++) {
+        cars[i].brain = JSON.parse(localStorage.getItem("newBrain"));
+        if (i != 0) {
+            NeuralNetwork.mutate(cars[i].brain, 0.01);
+        }
+    }
 }
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2),
     new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2),
-    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2)
+    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(0), -450, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -450, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(2), -600, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(0), -700, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -910, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(2), -900, 30, 50, "DUMMY", 2),
 ];
 
 function animate(time) {
@@ -69,9 +82,9 @@ function generateCars(N) {
 animate();
 
 function save() {
-    localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+    localStorage.setItem("newBrain", JSON.stringify(bestCar.brain));
 }
 
 function discard() {
-    localStorage.removeItem("bestBrain");
+    localStorage.removeItem("newBrain");
 }

@@ -15,7 +15,6 @@ class Car {
         this.acceleration = 0.2;
         this.maxSpeed = maxSpeed;
         this.friction = 0.05;
-
         this.angle = 0;
 
 
@@ -55,11 +54,15 @@ class Car {
     #assessdamage(roadBorders, traffic) {
         for (let i = 0; i < roadBorders.length; i++) {
             if (polyIntersection(this.polygon, roadBorders[i])) {
+                carsRemaining -= 1;
+                console.log(carsRemaining);
                 return true;
             }
         }
         for (let i = 0; i < traffic.length; i++) {
             if (polyIntersection(this.polygon, traffic[i].polygon)) {
+                carsRemaining -= 1;
+                console.log(carsRemaining);
                 return true;
             }
         }
